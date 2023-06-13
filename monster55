@@ -1,0 +1,36 @@
+
+for col in num_cols:
+    num_summary(df, col, plot=True)
+
+# Tenure'e bakıldığında 1 aylık müşterilerin çok fazla olduğunu
+# ardından da 70 aylık müşterilerin geldiğini görüyoruz.
+
+
+
+##################################
+# NUMERİK DEĞİŞKENLERİN TARGET GÖRE ANALİZİ
+##################################
+
+def target_summary_with_num(dataframe, target, numerical_col):
+    print(dataframe.groupby(target).agg({numerical_col: "mean"}), end="\n\n\n")
+
+for col in num_cols:
+    target_summary_with_num(df, "Churn", col)
+
+# Tenure ve Churn ilişkisine baktığımızda churn olmayan müşterilerin daha uzun süredir müşteri olduklarını görüyoruz
+# monthlycharges ve Churn incelendiğinde churn olan müşterilerin ortalama aylık ödemeleri daha fazla
+
+
+##################################
+# KATEGORİK DEĞİŞKENLERİN TARGET GÖRE ANALİZİ
+##################################
+
+
+def target_summary_with_cat(dataframe, target, categorical_col):
+    print(categorical_col)
+    print(pd.DataFrame({"TARGET_MEAN": dataframe.groupby(categorical_col)[target].mean(),
+                        "Count": dataframe[categorical_col].value_counts(),
+                        "Ratio": 100 * dataframe[categorical_col].value_counts() / len(dataframe)}), end="\n\n\n")
+
+for col in cat_cols:
+    target_summary_with_cat(df, "Churn", col)
